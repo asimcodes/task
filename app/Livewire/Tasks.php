@@ -12,6 +12,8 @@ class Tasks extends Component
     public $title;
     public $description;
     public $status = 'To Do'; // Default status
+    public $priority = 'Medium'; // Default priority
+    public $due_date; // Due date for the task
     public $taskId; // For editing
     public $showTrashed = false; // To toggle visibility of trashed tasks
 
@@ -22,10 +24,19 @@ class Tasks extends Component
         'Done' => 'Done',
     ];
 
+    // Define the priority options
+    public $priorityOptions = [
+        'Low' => 'Low',
+        'Medium' => 'Medium',
+        'High' => 'High',
+    ];
+
     protected $rules = [
         'title' => 'required|string|max:255',
         'description' => 'required|string',
         'status' => 'required|in:To Do,In Progress,Done',
+        'priority' => 'required|in:Low,Medium,High', // Validation for priority
+        'due_date' => 'nullable|date', // Validation for due date
     ];
 
     public function mount()
@@ -34,17 +45,21 @@ class Tasks extends Component
         $this->loadTrashedTasks();
     }
 
-    // Load all tasks
     private function loadTasks()
     {
-        $this->tasks = Task::all();
+        $this->tasks = Task::orderBy('due_date') // Order by due_date first
+        ->orderBy('created_at', 'desc') // Then by created_at in descending order
+        ->get();
     }
 
-    // Load trashed tasks
     private function loadTrashedTasks()
     {
-        $this->trashedTasks = Task::onlyTrashed()->get();
+        $this->trashedTasks = Task::onlyTrashed()
+            ->orderBy('due_date') // Order by due_date first
+            ->orderBy('created_at', 'desc') // Then by created_at in descending order
+            ->get();
     }
+
 
     public function createTask()
     {
@@ -54,6 +69,8 @@ class Tasks extends Component
             'title' => $this->title,
             'description' => $this->description,
             'status' => $this->status,
+            'priority' => $this->priority, // Save priority
+            'due_date' => $this->due_date, // Save due date
         ]);
 
         $this->resetInputFields();
@@ -67,6 +84,8 @@ class Tasks extends Component
         $this->title = $task->title;
         $this->description = $task->description;
         $this->status = $task->status;
+        $this->priority = $task->priority; // Set priority for editing
+        $this->due_date = $task->due_date; // Set due date for editing
     }
 
     public function updateTask()
@@ -79,6 +98,8 @@ class Tasks extends Component
                 'title' => $this->title,
                 'description' => $this->description,
                 'status' => $this->status,
+                'priority' => $this->priority, // Update priority
+                'due_date' => $this->due_date, // Update due date
             ]);
             $this->resetInputFields();
             $this->loadTasks(); // Refresh tasks list
@@ -120,6 +141,8 @@ class Tasks extends Component
         $this->title = '';
         $this->description = '';
         $this->status = 'To Do';
+        $this->priority = 'Medium'; // Reset to default priority
+        $this->due_date = null; // Reset due date
         $this->taskId = null;
     }
 

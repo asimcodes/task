@@ -34,6 +34,22 @@
                 @error('status') <span class="text-red-500">{{ $message }}</span> @enderror
             </div>
 
+            <div class="mb-2">
+                <label for="priority" class="block text-sm font-medium text-gray-700">Priority</label>
+                <select id="priority" wire:model="priority" class="border rounded p-2 w-full">
+                    @foreach($priorityOptions as $value => $label)
+                        <option value="{{ $value }}">{{ $label }}</option>
+                    @endforeach
+                </select>
+                @error('priority') <span class="text-red-500">{{ $message }}</span> @enderror
+            </div>
+
+            <div class="mb-2">
+                <label for="due_date" class="block text-sm font-medium text-gray-700">Due Date</label>
+                <input type="date" id="due_date" wire:model="due_date" class="border rounded p-2 w-full">
+                @error('due_date') <span class="text-red-500">{{ $message }}</span> @enderror
+            </div>
+
             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">
                 {{ $taskId ? 'Update Task' : 'Create Task' }}
             </button>
@@ -54,6 +70,8 @@
                     <th class="px-4 py-2">Title</th>
                     <th class="px-4 py-2">Description</th>
                     <th class="px-4 py-2">Status</th>
+                    <th class="px-4 py-2">Priority</th>
+                    <th class="px-4 py-2">Due Date</th>
                     <th class="px-4 py-2">Actions</th>
                 </tr>
                 </thead>
@@ -63,6 +81,8 @@
                         <td class="border px-4 py-2">{{ $task->title }}</td>
                         <td class="border px-4 py-2">{{ $task->description }}</td>
                         <td class="border px-4 py-2">{{ $task->status }}</td>
+                        <td class="border px-4 py-2">{{ $task->priority }}</td>
+                        <td class="border px-4 py-2">{{ $task->due_date ? \Carbon\Carbon::parse($task->due_date)->format('Y-m-d') : 'N/A' }}</td>
                         <td class="border px-4 py-2">
                             <button wire:click="editTask({{ $task->id }})" class="bg-yellow-500 text-white px-4 py-2 rounded">Edit</button>
                             <button wire:click="deleteTask({{ $task->id }})" class="bg-red-500 text-white px-4 py-2 rounded">Delete</button>
@@ -100,6 +120,8 @@
                         <tr>
                             <td class="border px-4 py-2">{{ $trashedTask->title }}</td>
                             <td class="border px-4 py-2">{{ $trashedTask->description }}</td>
+                            <td class="border px-4 py-2">{{ $trashedTask->priority }}</td>
+                            <td class="border px-4 py-2">{{ $trashedTask->due_date ? \Carbon\Carbon::parse($trashedTasks->due_date)->format('Y-m-d') : 'N/A' }}</td>
                             <td class="border px-4 py-2">
                                 <button wire:click="restoreTask({{ $trashedTask->id }})" class="bg-green-500 text-white px-4 py-2 rounded">Restore</button>
                             </td>
