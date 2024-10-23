@@ -46,4 +46,4 @@ Copy the .env.example file to .env:
 
     php artisan test
 ## Bonus Features
-Scheduled Deletion of Old Tasks: This feature will automatically delete tasks that have been marked as deleted and are older than 30 days. This is done through a scheduled job running dail
+Scheduled Deletion of Old Tasks: This feature will automatically delete tasks that have been marked as deleted and are older than 30 days. This is done through a scheduled job running daily
