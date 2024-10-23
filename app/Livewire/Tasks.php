@@ -125,6 +125,7 @@ class Tasks extends Component
             session()->flash('message', 'Task deleted successfully.');
             $this->loadTasks(); // Refresh tasks list and counts
             $this->loadTrashedTasks(); // Update trashed tasks count
+
         } else {
             session()->flash('message', 'Task not found.');
         }

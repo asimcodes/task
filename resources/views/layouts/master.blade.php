@@ -9,7 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
     <!-- Reference to CSS file -->
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @livewireStyles
 </head>
 <body>
@@ -17,6 +17,6 @@
 
 @livewireScripts
 <!-- Reference to JavaScript file -->
-<script src="{{ mix('js/app.js') }}"></script>
+<script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

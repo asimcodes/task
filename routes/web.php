@@ -14,5 +14,5 @@ use App\Http\Controllers\TaskController;
 */
 
 // Redirect root URL to the task listing page
-Route::get('/', [TaskController::class, 'index']);
+Route::get('/', [TaskController::class, 'index'])->name('home');
 
